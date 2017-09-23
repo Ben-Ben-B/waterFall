@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+
+</table>
+<script type="text/template" id="weather">
+    <%for(var i=0;i< items.length;i++){%>
+        <tr>
+            <td><%=items[i].date%></td>
+            <td><img src="<%=items[i].dayPictureUrl%>" alt=""></td>
+            <td><img src="<%=items[i].nightPictureUrl%>" alt=""></td>
+            <td><%=items[i].temperature%></td>
+            <td><%=items[i].weather%></td>
+            <td><%=items[i].wind%></td>
+        </tr>
+    <%}%>
+</script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/template-native.js"></script>
+<script>
+    $.ajax({
+        type:'get',
+        url:'http://api.map.baidu.com/telematics/v3/weather',
+        data:{'ak':'DarF2LCCGzn6T16zgy8ZPkvYYE5CT6fu','location':'广州','output':'json'},
+        dataType:'jsonp',
+        success:function(result){
+            var data = result.results[0].weather_data;
+            var html = template('weather',{"items":data});
+            $("table").html(html);
+        }
+    });
+</script>
+</body>
+</html>

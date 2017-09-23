@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502711533304&di=5a5e667fd7fbcd4da7a30ff8af7ccaf5&imgtype=0&src=http%3A%2F%2Fwww.yfcnn.com%2Fuploads%2F20170803%2F0lx4junhxuf9662.jpg" alt="">-->
+
+<!--如果使用js发送请求，那么接收的返回值会被当成js来解析-->
+<script>
+    /*function test(age){
+        alert(age+'能不能显示');
+    }
+
+    function test1(age){
+        alert(age);
+    }
+
+    eval('test(100)');*/
+
+    function test(data){
+        console.log(data);
+    }
+
+    function test1(name){
+        alert(name);
+    }
+
+</script>
+<!--跨域的原理：
+本质是利用了script的src的的跨域特性：它将客户端需要执行的函数以参数的形式传递给服务器端，服务器端将这个函数拼接需要的数据，返回给客户端，让客户端执行这个函数-->
+<!--<script src="04-cross.php"></script>-->
+<!--<script src="04-cross.php?callback=test"></script>-->
+
+<!--跨域与异步对象没有任何的关系，它是通过src发送请求的
+跨域只能使用get来发送请求-->
+<script src="http://mywjs.com/04-cross.php?callback=test"></script>
+</body>
+</html>

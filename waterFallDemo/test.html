@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul></ul>
+<script type="text/template" id="temp">
+    <li>
+        <a href="javascript">
+            <img src="<%=src%>" alt="">
+            <p><%=txt%></p>
+        </a>
+    </li>
+</script>
+<script>
+    $.ajax({
+    type: "get", url: "./3-template.php", success: function (result) {
+        var html = "";
+        for (var i = 0; i < result.length; i++) {
+            html += template("temp", result[i])
+        }
+        document.querySelector("ul").innerHTML = html
+    }
+})</script>
+</body>
+</html>

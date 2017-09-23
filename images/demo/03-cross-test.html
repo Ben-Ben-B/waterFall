@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="../js/jquery.min.js"></script>
+<script>
+    /*http://localhost:63342/myAjax/day5/demo/03-cross-test.html*/
+    $.ajax({
+        type:'get',
+        /*dataType:'jsonp',:使用跨域的方式发送请求*/
+        dataType:'jsonp',
+        /*http://myajax.com/day5/demo/03-cross-test.html*/
+        /*url:'http://myajax.com/day4/data.json',*/
+        url:'http://mywjs.com/nav.json',
+        success:function(result){
+            console.log(result);
+        }
+    });
+</script>
+</body>
+</html>

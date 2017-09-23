@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        .parent {
+            padding: 30px;
+        }
+        
+        .items {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        
+        .item {
+            position: absolute;
+        }
+        
+        .item>img {
+            width: 100%;
+            display: block;
+        }
+        
+        .item>p {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            background-color: rgba(249, 255, 127, 0.71);
+        }
+        
+        .loadMore {
+            width: 100%;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background-color: #ffa87f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent">
+        <div class="items">
+
+        </div>
+        <p class="loadMore">点击加载更多数据</p>
+    </div>
+    <script type="text/template" id="water">
+        <% for(var i=0;i< items.length;i++){%>
+            <div class="item">
+                <img src="<%= items[i].icon%>" alt="">
+                <p>
+                    <%=items[i].price%>
+                </p>
+            </div>
+            <%}%>
+    </script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/template-native.js"></script>
+    <script src="../js/waterFall.js"></script>
+    <script>
+        function loadData(currentPage) {
+            if ($(".loadMore").hasClass("loading")) {
+                return;
+            }
+            $.ajax({
+                type: 'get',
+                url: '01-waterFall.php',
+                data: {
+                    page: currentPage
+                },
+                beforeSend: function() {
+                    $(".loadMore").addClass("loading");
+                },
+                success: function(result) {
+                    var html = template("water", {
+                        "items": result
+                    });
+                    $(".items").append(html);
+                    $('.item').each(function(index, value) {
+                        console.log($(this).width())
+                    })
+                    $(".items").waterFall({
+                        col: 5
+                    });
+                    $(".loadMore").attr("page", currentPage);
+                },
+                complete: function() {
+                    $(".loadMore").removeClass("loading");
+                }
+            });
+        }
+        loadData(1);
+
+        /*点击加载更多数据*/
+        $(".loadMore").on("click", function() {
+            var cp = $(this).attr("page");
+            cp++;
+            loadData(cp);
+        });
+
+        /*屏幕大小变化，重新布局---是重新布局不是重新加载数据*/
+        $(window).on("resize", function() {
+            $(".items").waterFall({
+                col: 5
+            });
+        });
+
+        /*实现自动滚动加载*/
+        $(window).on("scroll", function() {
+            var offsetTop = $(".items").offset().top;
+            var itemsHeight = $(".items").height();
+
+            var windowScrollTop = $(this).scrollTop();
+            var windowHeight = $(this).height();
+
+            var offset = offsetTop + itemsHeight - windowScrollTop - windowHeight;
+            if (offset <= 100 && !$(".loadMore").hasClass("loading")) {
+                var cp = $(".loadMore").attr("page");
+                cp++;
+                loadData(cp);
+            }
+        });
+    </script>
+</body>
+
+</html>

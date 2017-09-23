@@ -1,0 +1,14 @@
+[
+  {
+    "src":"./images/nav_1.png",
+    "text":"电脑"
+  },
+  {
+    "src":"./images/nav_2.png",
+    "text":"手机"
+  },
+  {
+    "src":"./images/nav_3.png",
+    "text":"平板"
+  }
+]
